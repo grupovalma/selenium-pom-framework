@@ -1,0 +1,53 @@
+name : Creacion de Pines automaticas v2
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 11 * * 1-5'
+
+jobs:
+  selenium-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Selenium tests
+        env:
+          PINES_USER : ${{ secrets.PINES_USER }}
+          PINES_PASS: ${{ secrets.PINES_PASS }}
+          PINES_PASSW_VIAFIRMA: ${{ secrets.PINES_PASSW_VIAFIRMA }}
+          PINES_USER_VIAFIRMA: ${{ secrets.PINES_USER_VIAFIRMA }}
+          COMPANY_NAME: ${{ secrets.COMPANY_NAME }}
+          SUPPLIER_NAME: ${{ secrets.SUPPLIER_NAME }}
+          MAIL_IMPORTER: ${{ secrets.MAIL_IMPORTER }}
+          PHONE_IMPORTER: ${{ secrets.PHONE_IMPORTER }}
+          TEST_ADMIN: ${{ secrets.TEST_ADMIN }}
+          TEST_WAREHOUSE: ${{ secrets.TEST_WAREHOUSE }}
+
+        run: xvfb-run -a pytest -s   #De esta manera corre sin grafico
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-screenshots
+          path: |
+            *.png
+            screenshots/*.png
