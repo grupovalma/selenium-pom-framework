@@ -8,7 +8,7 @@ from pages.siga_seaching_pin_page import SigaSearchingPin
 from pages.siga_search_statement_ import SigaSearchStatement
 from pages.siga_statement_page import SigaStatement
 from utilities.utils import Utils
-@pytest.fixture(params=["Pin 1", "Pin 2", "Pin 3", "Pin 4", "Pin 5", "Pin 6", "Pin 7", "Pin 8", "Pin 9", "Pin 10"])
+@pytest.fixture(params=["Pin 1", "Pin 2", "Pin 3", "Pin 4", "Pin 5", "Pin 6", "Pin 7", "Pin 8", "Pin 9", "Pin 10", "Pin 11"])
 def PinRepetition(request):
     print(request.param)
 @pytest.mark.usefixtures("setup")
