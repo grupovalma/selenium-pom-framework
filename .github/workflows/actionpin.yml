@@ -3,7 +3,7 @@ name : Creacion de Pines automaticas v2
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 11 * * 1-5'
+    - cron: '0 10 * * 1-5'
 
 jobs:
   selenium-test:
